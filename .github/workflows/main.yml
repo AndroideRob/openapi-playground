@@ -7,7 +7,6 @@ on:
 jobs:
   openapi:
     runs-on: ubuntu-latest
-    concurrency: deploy-dev
 
     steps:
       - uses: actions/checkout@v2

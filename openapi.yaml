@@ -2,7 +2,7 @@ openapi: "3.0.3"
 info:
   title: Backend API
   description: ONUU Backend API
-  version: 1.0.0
+  version: 1.0.1
 
 x-amazon-apigateway-request-validators:
   body-validation:

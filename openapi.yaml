@@ -1,0 +1,128 @@
+openapi: "3.0.3"
+info:
+  title: Backend API
+  description: ONUU Backend API
+  version: 1.0.0
+
+x-amazon-apigateway-request-validators:
+  body-validation:
+    validateRequestBody: true
+    validateRequestParameters: false
+
+x-amazon-apigateway-gateway-responses:
+  BAD_REQUEST_BODY:
+    responseTemplates:
+      # this template adds the error details to the response whenever the validation of the request body fails
+      application/json: '{ "success": false, "message": "$context.error.message" }'
+
+paths:
+  /wait-list:
+    post:
+      summary: Wait List Addition
+      description: Add user's email to the wait list
+      x-amazon-apigateway-request-validator: body-validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+            example:
+              email: joe.doe@onuu.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: true
+                message: Successfully registered
+
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri:
+          "Fn::Join":
+            [
+                "",
+              [
+                  "arn:aws:apigateway:",
+                  { "Ref": "AWS::Region" },
+                  ":lambda:path/2015-03-31/functions/arn:aws:lambda:",
+                  { "Ref": "AWS::Region" },
+                  ":",
+                  { "Ref": "AWS::AccountId" },
+                  ":function:onuu-backend-test-wait-list-register/invocations",
+              ],
+            ]
+  /wait-list-2:
+    post:
+      summary: Wait List Addition
+      description: Add user's email to the wait list
+      x-amazon-apigateway-request-validator: body-validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  minLength: 1
+            example:
+              email: joe.doe@onuu.com
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - message
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+              example:
+                success: true
+                message: Successfully registered
+
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri:
+          "Fn::Join":
+            [
+                "",
+              [
+                  "arn:aws:apigateway:",
+                  { "Ref": "AWS::Region" },
+                  ":lambda:path/2015-03-31/functions/arn:aws:lambda:",
+                  { "Ref": "AWS::Region" },
+                  ":",
+                  { "Ref": "AWS::AccountId" },
+                  ":function:onuu-backend-test-wait-list-register/invocations",
+              ],
+            ]
